@@ -1,12 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { request } from "../../../../config/request";
 
-export const useGetData = () => {
+export const useSaleData = () => {
   return useQuery({
-    queryKey: ["categorys"],
+    queryKey: ["sale"],
     queryFn: () =>
       request
-        .get("/products")
+        .get("/sales")
         .then((res) => res.data)
+        .catch((error) => error),
   });
 };

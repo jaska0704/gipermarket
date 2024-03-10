@@ -5,7 +5,6 @@ import { nanoid } from "@reduxjs/toolkit";
 import { main_pages } from "./router/main-router";
 
 function App() {
-  console.log(import.meta.env.VITE_APP_URL);
   return (
     <div>
       <Routes>

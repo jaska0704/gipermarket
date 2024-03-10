@@ -3,11 +3,11 @@ import Slider from "react-slick";
 import {
   SampleNextArrow,
   SamplePrevArrow,
-} from "../../pages/home/components/carousel_map";
+} from "../../pages/home/components/carousels/carousel_map";
 
 function Carousel() {
   const settings = {
-    dots: true,
+    // dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,

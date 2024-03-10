@@ -1,7 +1,11 @@
 import React from 'react'
 
+
 export const Cart = () => {
   return (
-    <div>Cart</div>
+    <div>
+      cart2-icon
+      <HeartWhite/>
+    </div>
   )
 }
