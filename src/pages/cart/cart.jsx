@@ -5,7 +5,7 @@ export const Cart = () => {
   return (
     <div>
       cart2-icon
-      <HeartWhite/>
+     
     </div>
   )
 }

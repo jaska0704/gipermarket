@@ -6,33 +6,49 @@ import { saveState, loadState } from "../../../config/storage";
 import { Register } from "../register";
 import { Login } from "../login";
 import { useGetAllData } from "../../../pages/home/service/query/useGetAllData";
-
+import { CardCategory } from "../../../pages/home/components/cards/card-category";
+import { Link } from "react-router-dom";
 
 export const HeaderBottom = () => {
   const user = loadState("user");
   const [search, setSearch] = React.useState("");
   const { isOpen, close, open } = useModal();
   const { isOpen: isOpen2, toggle } = useModal();
-  const {
-    isOpen: isOpen3,
-    toggle: toggle3,
-    cose: close3,
-    open: open3,
-  } = useModal();
+  const { data } = useGetData();
   const { data: allData } = useGetAllData(search);
-  
 
   return (
     <div className="flex justify-between items-center my-5 gap-5">
-      <img src="/logo.png" alt="logo" />
+      <Link to={"/"}>
+        <img src="/logo.png" alt="logo" />
+      </Link>
       <div>
         <button
+          onClick={() => {
+            return document.getElementById("my_modal_1").showModal();
+          }}
           className=" px-8 py-3 bg-primary text-[20px]
         leading-[28.9px] flex items-center gap-3 font-normal font-jost"
         >
           <img src="/icons/bar-icon.svg" alt="" />
           Каталог
         </button>
+
+        <dialog id="my_modal_1" className="modal">
+          <div className="modal-box  w-11/12 max-w-5xl">
+            <div className="flex gap-5 flex-wrap">
+              {data?.map((item) => (
+                <CardCategory key={item.id} {...item} closeModal={close} />
+              ))}
+            </div>
+
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn">Close</button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
       <div>
         <label className="input w-[780px] input-bordered flex items-center gap-2 ">
@@ -98,10 +114,7 @@ export const HeaderBottom = () => {
             </div>
           )}
         </div>
-        {/* <Modal isOpen={isOpen3}>
-          <img src="/icons/user-icon.svg" alt="" />
-          <button> </button>
-        </Modal> */}
+
         <div className="flex flex-col justify-center items-center">
           <img src="/icons/heart-icon.svg" alt="icon-user" />
           <p>Избранное</p>
