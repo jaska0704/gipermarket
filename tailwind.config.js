@@ -7,6 +7,7 @@ export default {
         center: true,
         screens: {
           lg: "1440px",
+          sm: "660px",
         },
         padding: "20px",
       },

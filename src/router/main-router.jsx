@@ -1,9 +1,13 @@
-import { Home } from "../pages/home/home";
-import { Cart } from "../pages/cart/cart";
-import { Cabinet } from "../pages/cabinet/cabinet";
-import { Oformit } from "../pages/oformit/oformit";
-import { Cards } from "../pages/cards/cards";
-import { CardDetails } from "../pages/card-details/card-details";
+import { lazy } from "react";
+import  Home  from "../pages/home/home";
+
+
+const Cart = lazy(() => import("../pages/cart/cart.jsx"));
+const Cabinet = lazy(() => import("../pages/cabinet/cabinet.jsx"));
+const Oformit = lazy(() => import("../pages/oformit/oformit.jsx"));
+const Cards = lazy(() => import("../pages/cards/cards.jsx"));
+const CardDetails = lazy(() => import("../pages/card-details/card-details.jsx"));
+const Liked = lazy(() => import("../pages/liked/liked.jsx"));
 
 export const main_pages = [
   {
@@ -26,11 +30,11 @@ export const main_pages = [
     path: "cards/:datakey",
   },
   {
-    component: <Cards />,
-    path: "cards/:datakey",
-  },
-  {
     component: <CardDetails />,
     path: "carddetails/:datakey/:id",
+  },
+  {
+    component: <Liked />,
+    path: "liked",
   },
 ];

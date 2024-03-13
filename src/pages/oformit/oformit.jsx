@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Oformit = () => {
+const Oformit = () => {
   return (
     <div>Oformit</div>
   )
 }
+
+export default Oformit;

@@ -1,19 +1,28 @@
 import React from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useGetData } from "../home/service/query/useGetData";
 import { StarRatings } from "../../components/stars/star-ratings";
 import { useGetCardDetails } from "../home/service/query/useGetCardDetails";
+import { add } from "../../redux/reducers/product-reducer";
+import { useDispatch } from "react-redux";
 
-export const CardDetails = ({ img, title, newPrice, price }) => {
+const CardDetails = () => {
   const { datakey, id } = useParams();
   const { data } = useGetData();
   const [state, setState] = React.useState(false);
   const { data: data1 } = useGetCardDetails(datakey, id);
-  console.log(data1);
-  console.log(title);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const likeProduct = () => {
     setState(!state);
+  };
+  const formatPrice = (value) => {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+  };
+  const addCarts = (data1) => {
+    dispatch(add(data1));
+    navigate("/cart");
   };
 
   return (
@@ -107,7 +116,7 @@ export const CardDetails = ({ img, title, newPrice, price }) => {
           <div className="border w-[30%] p-2">
             <div className="flex justify-between">
               <p className=" font-jost font-medium text-[20px] line-through text-slate-400">
-                {data1?.price * 12450} Сум
+                {formatPrice(data1?.price * 12450)} Сум
               </p>
               <p className="font-jost font-medium text-[20px] bg-red-500 text-white p-1">
                 {(
@@ -118,12 +127,18 @@ export const CardDetails = ({ img, title, newPrice, price }) => {
               </p>
             </div>
             <h2 className="font-jost text-[36px] font-semibold">
-              {data1?.newPrice * 12450} Сум
+              {formatPrice(data1?.newPrice * 12450)} Сум
             </h2>
-            <button className="w-full py-3 bg-primary">В корзину</button>
+            <button
+              onClick={() => addCarts(data1)}
+              className="w-full py-3 bg-primary"
+            >
+              В корзину
+            </button>
           </div>
         </div>
       </div>
     </div>
   );
 };
+export default CardDetails;

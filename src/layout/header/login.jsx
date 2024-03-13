@@ -14,6 +14,7 @@ export const Login = ({closeModal}) => {
             if(data){
                 saveState("user", data);
                 navigate("/");
+                closeModal()
             }
            },
          });

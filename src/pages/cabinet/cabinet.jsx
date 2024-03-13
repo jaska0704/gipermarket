@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const Cabinet = () => {
+const Cabinet = () => {
   return (
     <div>Cabinet</div>
   )
 }
+
+export default Cabinet;

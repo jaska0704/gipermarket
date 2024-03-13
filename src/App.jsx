@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { MainLayout } from "./layout/main-layout/main-layout";
 import { nanoid } from "@reduxjs/toolkit";
@@ -14,7 +14,7 @@ function App() {
               path={route.path}
               index={route.path ? false : true}
               key={nanoid()}
-              element={route.component}
+              element={route.path ? <Suspense fallback={<h2>Loading</h2>}>{route.component}</Suspense> : route.component}
             />
           ))}
         </Route>

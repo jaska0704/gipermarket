@@ -4,7 +4,7 @@ import { CardPhone } from '../home/components/cards/card-phone';
 import { loadState } from '../../config/storage';
 import { useGetCategory } from '../home/service/query/useGetCategory';
 
-export const Cards = () => {
+const Cards = () => {
     const {datakey} = useParams();
     const {data} = useGetCategory(datakey);
     const user = loadState("user")
@@ -19,3 +19,5 @@ export const Cards = () => {
     </div>
   );
 }
+
+export default Cards;

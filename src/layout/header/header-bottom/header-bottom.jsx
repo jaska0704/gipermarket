@@ -8,17 +8,31 @@ import { Login } from "../login";
 import { useGetAllData } from "../../../pages/home/service/query/useGetAllData";
 import { CardCategory } from "../../../pages/home/components/cards/card-category";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const HeaderBottom = () => {
   const user = loadState("user");
   const [search, setSearch] = React.useState("");
   const { isOpen, close, open } = useModal();
+  const {
+    isOpen: isOpen3,
+    close: close3,
+    open: open3,
+    toggle: toggle3,
+  } = useModal();
   const { isOpen: isOpen2, toggle } = useModal();
   const { data } = useGetData();
-  const { data: allData } = useGetAllData(search);
+  const { data: allData, isLoading } = useGetAllData(search);
+  const { count } = useSelector((state) => state.product);
+  const { count: countlike } = useSelector((state) => state.liked);
+
+  const exit = () => {
+    localStorage.removeItem("user");
+    close3();
+  };
 
   return (
-    <div className="flex justify-between items-center my-5 gap-5">
+    <div className="flex justify-between items-center my-5 gap-5 ">
       <Link to={"/"}>
         <img src="/logo.png" alt="logo" />
       </Link>
@@ -50,11 +64,11 @@ export const HeaderBottom = () => {
           </div>
         </dialog>
       </div>
-      <div>
-        <label className="input w-[780px] input-bordered flex items-center gap-2 ">
+      <div className="relative">
+        <label className="input sm:w-[200px] lg:w-[780px] input-bordered flex items-center gap-2 ">
           <input
             type="text"
-            className="grow relative"
+            className="grow "
             placeholder="Поиск"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -74,15 +88,28 @@ export const HeaderBottom = () => {
         </label>
         <div>
           {search.length >= 3 ? (
-            <div className="absolute top-[110px] w-[770px] z-20 bg-white w-">
-              {allData?.map((item) => {
-                return (
-                  <div className="flex gap-4 py-2 border ">
-                    <img className="w-[40px] h-[40px]" src={item.img} alt="" />
-                    <h2>{item.title}</h2>
-                  </div>
-                );
-              })}
+            <div className="absolute top-12 w-full z-20 bg-white h-[30vh] overflow-y-auto">
+              {isLoading ? (
+                <h1>Loading Jasur aka...</h1>
+              ) : (
+                allData?.map((item) => {
+                  return (
+                    <Link
+                      key={item.id}
+                      onClick={(e) => setSearch(e.target.reset())}
+                      to={`/carddetails/${item.datakey}/${item.id}`}
+                      className="flex gap-4 py-2 border "
+                    >
+                      <img
+                        className="w-[40px] h-[40px]"
+                        src={item.img}
+                        alt=""
+                      />
+                      <h2>{item.title}</h2>
+                    </Link>
+                  );
+                })
+              )}
             </div>
           ) : null}
         </div>
@@ -103,7 +130,29 @@ export const HeaderBottom = () => {
           </Modal>
 
           {user ? (
-            <img className="w-[60px]" src="/icons/user-icon.svg" alt="" />
+            <>
+              <button onClick={toggle3}>
+                <img className="w-[60px]" src="/icons/user-icon.svg" alt="" />
+              </button>
+              <Modal isOpen={isOpen3} close={close3}>
+                <div className="max-w-[300px] mx-auto flex flex-col items-center bg-green-400">
+                  <img
+                    className="w-[90%] p-12"
+                    src="/icons/user-icon.svg"
+                    alt=""
+                  />
+                  <button
+                    className=" px-5 py-2 bg-red-400 text-white font-jost"
+                    onClick={exit}
+                  >
+                    Выход
+                  </button>
+                  <button className=" px-5 py-2 bg-yellow-400 text-white font-jost">
+                    Bход в профиль
+                  </button>
+                </div>
+              </Modal>
+            </>
           ) : (
             <div
               className="flex flex-col justify-center items-center"
@@ -115,14 +164,26 @@ export const HeaderBottom = () => {
           )}
         </div>
 
-        <div className="flex flex-col justify-center items-center">
+        <Link
+          to={"/liked"}
+          className="flex flex-col justify-center items-center"
+        >
           <img src="/icons/heart-icon.svg" alt="icon-user" />
           <p>Избранное</p>
-        </div>
-        <div className="flex flex-col justify-center items-center">
+          <span className="absolute top-[45px] right-[180px] w-6 h-6 rounded-full bg-red-500 text-white text-[14px] grid place-content-center">
+            {countlike}
+          </span>
+        </Link>
+        <Link
+          to={"/cart"}
+          className="flex flex-col justify-center items-center relativ"
+        >
           <img src="/icons/cart-icon.svg" alt="icon-user" />
           <p>Корзина</p>
-        </div>
+          <span className="absolute top-[45px] right-[70px] w-6 h-6 rounded-full bg-red-500 text-white text-[14px] grid place-content-center">
+            {count}
+          </span>
+        </Link>
       </div>
     </div>
   );
