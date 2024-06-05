@@ -7,16 +7,15 @@ import { useDispatch, useSelector } from "react-redux";
 
 export const CardPhone = (product) => {
   const dispatch = useDispatch();
-  const [state, setState] = React.useState(
-    localStorage.getItem("like") || false
-  );
+  const [state, setState] = React.useState(false);
   const [addcart, setAddCart] = React.useState(false);
   const navigate = useNavigate();
   const user = loadState("user");
-  const like = loadState("like");
   const { likeProduct } = useSelector((state) => state.liked);
 
-  const likeHeart = likeProduct.find((item) => item.id === product.id);
+  const likeHeart = likeProduct.find((item) => {
+    return item.id === product.id && item.datakey === product.datakey;
+  });
   console.log(state);
   const nolike = () => {
     setState(!state);
@@ -45,7 +44,7 @@ export const CardPhone = (product) => {
       <div className="w-[250px] h-[340px] text-center flex  flex-col justify-between shadow-lg p-4 my-4">
         <div className="flex justify-between items-start">
           <img className="w-[200px] h-[200px]" src={product.img} alt="" />
-          {state ? (
+          {likeHeart ? (
             <button onClick={likeProduct}>
               <img src="/heart-like.png" alt="" />
             </button>

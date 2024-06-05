@@ -88,7 +88,7 @@ export const HeaderBottom = () => {
         </label>
         <div>
           {search.length >= 3 ? (
-            <div className="absolute top-12 w-full z-20 bg-white h-[30vh] overflow-y-auto">
+            <div className="absolute top-12 w-full z-20 bg-white h-[60vh] overflow-y-auto">
               {isLoading ? (
                 <h1>Loading Jasur aka...</h1>
               ) : (

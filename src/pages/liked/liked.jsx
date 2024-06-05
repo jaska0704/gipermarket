@@ -33,7 +33,7 @@ const Liked = () => {
                 key={item.id}
               >
                 <div className="flex justify-between items-start">
-                  <img className="w-full" src={item.img} alt="" />
+                  <img className="w-[80%]" src={item.img} alt="" />
                   <button onClick={() => likedItems(item)}>
                     <img className="w-[20px]" src="/heart-like.png" alt="" />
                   </button>
